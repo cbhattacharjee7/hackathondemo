@@ -34,10 +34,9 @@
 
 						<uri>https://anypoint.mulesoft.com</uri>
 
-						<muleVersion>${mule.version}</muleVersion>
+						<muleVersion>4.4.0</muleVersion>
 						<!-- 
 						<username>${anypoint.username}</username>
-
 						<password>${anypoint.password}</password>
 -->
 						<connectedAppClientId>${connectedAppClientId}</connectedAppClientId>
@@ -46,13 +45,13 @@
 						
 						<connectedAppGrantType>client_credentials</connectedAppGrantType>
 						
-						<environment>${env}</environment>
+						<environment>Sandbox</environment>
 
-						<applicationName>${appname}</applicationName>
+						<applicationName>hackathondemo</applicationName>
 
-						<businessGroup>${business}</businessGroup>
+						<businessGroup>DEMO-VOICE</businessGroup>
 
-						<workerType>${vCore}</workerType>
+						<workerType>Micro</workerType>
 
 						<workers>${workers}</workers>
 
