@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:twilio="http://www.mulesoft.org/schema/mule/twilio"
+	xmlns:cps="http://www.mulesoft.org/schema/mule/cps"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/cps http://www.mulesoft.org/schema/mule/cps/current/mule-cps.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6bf92dda-95ec-4708-aff6-830a8f7c828c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<cps:config name="Configuration_properties_service_Config" doc:name="Configuration-properties-service Config" doc:id="1261545b-bcab-4398-8eec-4f23817cb64a" configServerBaseUrl="${cps.configServerBaseUrl}" projectName="${cps.projectName}" environment="${cps.prefix}" clientId="${cps.clientId}" clientSecret="${cps.clientSecret}" configId="cps-config" />
+	<flow name="hackathon-deploy-demoFlow" doc:id="e515a5e2-a5e7-4f9c-a7e5-b491006a64b4" >
+		<http:listener doc:name="Listener" doc:id="9d5ad1ff-d45b-4435-8e53-137ccd89f9a0" config-ref="HTTP_Listener_config" path="/hack">
+			<http:error-response >
+				<http:body ><![CDATA[#[output application/json --- payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="${in.name}" doc:name="Set Variable" doc:id="f7e448b3-0b49-4b0a-8de7-962a48ce2314" variableName="name"/>
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="52c406b8-931d-430d-915f-54716b91b95e" variableName="cname"/>
+		<set-payload value="#['Hello ' ++ vars.name ++ ' welcome to hackathon ' ++ vars.cname]" doc:name="Set Payload" doc:id="25b3abb9-3156-46f7-a478-d2c59556f371" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b8bd896c-28f0-424f-9419-7c483a824396" type="ANY">
+				<ee:transform doc:name="Transform Message" doc:id="b7282f46-71ee-41dd-828f-c4365fce2306" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"SYSTEM_FAILURE in our applicaton"]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>
