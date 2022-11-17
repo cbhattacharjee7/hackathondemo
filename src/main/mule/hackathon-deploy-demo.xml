@@ -17,8 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</http:error-response>
 		</http:listener>
 		<set-variable value="${in.name}" doc:name="Set Variable" doc:id="f7e448b3-0b49-4b0a-8de7-962a48ce2314" variableName="name"/>
-		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="52c406b8-931d-430d-915f-54716b91b95e" variableName="cname"/>
-		<set-payload value="#['Hello ' ++ vars.name ++ ' welcome to hackathon ' ++ vars.cname]" doc:name="Set Payload" doc:id="25b3abb9-3156-46f7-a478-d2c59556f371" />
+		<set-payload value="#['Hello ' ++ vars.name ++ ' welcome to hackathon']" doc:name="Set Payload" doc:id="25b3abb9-3156-46f7-a478-d2c59556f371" />
 		<error-handler >
 			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b8bd896c-28f0-424f-9419-7c483a824396" type="ANY">
 				<ee:transform doc:name="Transform Message" doc:id="b7282f46-71ee-41dd-828f-c4365fce2306" >
